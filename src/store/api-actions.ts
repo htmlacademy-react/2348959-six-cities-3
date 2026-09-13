@@ -9,22 +9,24 @@ import {
   setOfferLoadingStatus,
   updateOffer
 } from './action';
-import type {Review, ReviewData} from '../types/review';
-import {AxiosInstance} from 'axios';
-import {AppDispatch, State} from './index';
-import {adaptOfferToClient} from '../utils/adapter';
-import type {ServerOffer} from '../types/offer';
 import {AuthorizationStatus, FavoriteStatus} from '../const';
+import type {Review, ReviewData} from '../types/review';
+import {dropToken, saveToken} from '../services/token';
+import {adaptOfferToClient} from '../utils/adapter';
 import type {FavoriteStatusValue} from '../const';
-import {saveToken} from '../services/token';
 import type {AuthData} from '../types/auth-data';
 import type {UserData} from '../types/user-data';
+import type {ServerOffer} from '../types/offer';
+import {AppDispatch, State} from './index';
+import {AxiosInstance} from 'axios';
 
 const OFFERS_ROUTE = '/offers';
 
 const FAVORITES_ROUTE = '/favorite';
 
 const LOGIN_ROUTE = '/login';
+
+const LOGOUT_ROUTE = '/logout';
 
 function getOfferRoute(offerId: string): string {
   return `/offers/${offerId}`;
@@ -147,6 +149,8 @@ function fetchOffersAction() {
       const offers = data.map(adaptOfferToClient);
 
       dispatch(fillOffers(offers));
+    } catch {
+      dispatch(fillOffers([]));
     } finally {
       dispatch(setOffersLoadingStatus(false));
     }
@@ -184,6 +188,24 @@ function loginAction(authData: AuthData) {
   };
 }
 
+function logoutAction() {
+  return async (
+    dispatch: AppDispatch,
+    _getState: () => State,
+    api: AxiosInstance
+  ): Promise<void> => {
+    try {
+      await api.delete(LOGOUT_ROUTE);
+    } catch {
+      // ignore logout request error
+    }
+
+    dropToken();
+    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    dispatch(fillFavoriteOffers([]));
+  };
+}
+
 export {
   changeFavoriteStatusAction,
   checkAuthAction,
@@ -193,5 +215,6 @@ export {
   fetchOffersAction,
   fetchReviewsAction,
   loginAction,
+  logoutAction,
   postReviewAction
 };

@@ -1,7 +1,7 @@
 import {getAuthorizationStatus} from '../../store/selectors';
+import {Link, Navigate, useNavigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {AppRoute, AuthorizationStatus} from '../../const';
-import {Navigate, useNavigate} from 'react-router-dom';
 import {loginAction} from '../../store/api-actions';
 
 import {FormEvent} from 'react';
@@ -11,14 +11,15 @@ function LoginPage(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const navigate = useNavigate();
 
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     const formData = new FormData(evt.currentTarget);
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
 
     dispatch(loginAction({email, password}))
-      .then(() => navigate(AppRoute.Main));
+      .then(() => navigate(AppRoute.Main))
+      .catch(() => undefined);
   };
 
   if (authorizationStatus === AuthorizationStatus.Auth) {
@@ -31,9 +32,9 @@ function LoginPage(): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link" href="/">
+              <Link className="header__logo-link" to={AppRoute.Main}>
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -43,7 +44,7 @@ function LoginPage(): JSX.Element {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="#" method="post" onSubmit={handleSubmit}>
+            <form className="login__form form" action="#" method="post" onSubmit={handleFormSubmit}>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input className="login__input form__input" type="email" name="email" placeholder="Email" required />
@@ -57,9 +58,9 @@ function LoginPage(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
+              <Link className="locations__item-link" to={AppRoute.Main}>
                 <span>Amsterdam</span>
-              </a>
+              </Link>
             </div>
           </section>
         </div>

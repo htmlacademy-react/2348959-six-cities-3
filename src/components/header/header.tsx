@@ -1,19 +1,27 @@
-import {Link} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../const';
-import {useAppSelector} from '../../hooks';
 import {getAuthorizationStatus, getFavoriteOffers} from '../../store/selectors';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {AppRoute, AuthorizationStatus} from '../../const';
+import {logoutAction} from '../../store/api-actions';
+import {Link} from 'react-router-dom';
+import type {MouseEvent} from 'react';
 
 type HeaderProps = {
   isMainPage?: boolean;
 };
 
 function Header({isMainPage = false}: HeaderProps): JSX.Element {
+  const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const favoriteOffers = useAppSelector(getFavoriteOffers);
 
   const logoLinkClassName = isMainPage
     ? 'header__logo-link header__logo-link--active'
     : 'header__logo-link';
+
+  const handleSignOutClick = (evt: MouseEvent<HTMLAnchorElement>) => {
+    evt.preventDefault();
+    dispatch(logoutAction());
+  };
 
   return (
     <header className="header">
@@ -36,7 +44,7 @@ function Header({isMainPage = false}: HeaderProps): JSX.Element {
                     </Link>
                   </li>
                   <li className="header__nav-item">
-                    <a className="header__nav-link" href="#todo">
+                    <a className="header__nav-link" href="#todo" onClick={handleSignOutClick}>
                       <span className="header__signout">Sign out</span>
                     </a>
                   </li>
