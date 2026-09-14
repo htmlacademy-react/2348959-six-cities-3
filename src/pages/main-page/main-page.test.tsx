@@ -3,7 +3,7 @@ import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {Provider} from 'react-redux';
 import {MemoryRouter, Route, Routes} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus, CityName, SortType} from '../../const';
+import {APP_ROUTE, AUTHORIZATION_STATUS, CITY_NAME, SORT_TYPE} from '../../const';
 import {fillOffers, requireAuthorization} from '../../store/action';
 import {appProcess} from '../../store/app-process';
 import {favoritesData} from '../../store/favorites-data';
@@ -33,7 +33,7 @@ describe('MainPage', () => {
   it('should render offers for selected city', () => {
     const testStore = createTestStore();
 
-    testStore.dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    testStore.dispatch(requireAuthorization(AUTHORIZATION_STATUS.Auth));
     testStore.dispatch(fillOffers([
       makeFakeOffer('1'),
       makeFakeOffer('2'),
@@ -56,7 +56,7 @@ describe('MainPage', () => {
   it('should render empty page when selected city has no offers', () => {
     const testStore = createTestStore();
 
-    testStore.dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    testStore.dispatch(requireAuthorization(AUTHORIZATION_STATUS.Auth));
     testStore.dispatch(fillOffers([]));
 
     render(
@@ -68,13 +68,13 @@ describe('MainPage', () => {
     );
 
     expect(screen.getByText('No places to stay available')).toBeInTheDocument();
-    expect(screen.getByText(`We could not find any property available at the moment in ${CityName.Paris}`)).toBeInTheDocument();
+    expect(screen.getByText(`We could not find any property available at the moment in ${CITY_NAME.Paris}`)).toBeInTheDocument();
   });
 
   it('should change sorting type after sort option click', async () => {
     const testStore = createTestStore();
 
-    testStore.dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    testStore.dispatch(requireAuthorization(AUTHORIZATION_STATUS.Auth));
     testStore.dispatch(fillOffers([
       {...makeFakeOffer('1'), price: 300},
       {...makeFakeOffer('2'), price: 100},
@@ -88,24 +88,24 @@ describe('MainPage', () => {
       </Provider>
     );
 
-    await userEvent.click(screen.getByText(SortType.Popular, {selector: '.places__sorting-type'}));
-    await userEvent.click(screen.getByText(SortType.PriceLowToHigh));
+    await userEvent.click(screen.getByText(SORT_TYPE.Popular, {selector: '.places__sorting-type'}));
+    await userEvent.click(screen.getByText(SORT_TYPE.PriceLowToHigh));
 
-    expect(screen.getByText(SortType.PriceLowToHigh, {selector: '.places__sorting-type'})).toBeInTheDocument();
+    expect(screen.getByText(SORT_TYPE.PriceLowToHigh, {selector: '.places__sorting-type'})).toBeInTheDocument();
   });
 
   it('should redirect guest to login after favorite button click', async () => {
     const testStore = createTestStore();
 
-    testStore.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    testStore.dispatch(requireAuthorization(AUTHORIZATION_STATUS.NoAuth));
     testStore.dispatch(fillOffers([makeFakeOffer('1')]));
 
     render(
       <Provider store={testStore}>
-        <MemoryRouter initialEntries={[AppRoute.Main]}>
+        <MemoryRouter initialEntries={[APP_ROUTE.Main]}>
           <Routes>
-            <Route path={AppRoute.Main} element={<MainPage />} />
-            <Route path={AppRoute.Login} element={<span>Login page</span>} />
+            <Route path={APP_ROUTE.Main} element={<MainPage />} />
+            <Route path={APP_ROUTE.Login} element={<span>Login page</span>} />
           </Routes>
         </MemoryRouter>
       </Provider>

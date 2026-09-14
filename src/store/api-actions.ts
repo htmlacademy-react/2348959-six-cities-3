@@ -10,7 +10,7 @@ import {
   updateOffer,
   setUserData
 } from './action';
-import {AuthorizationStatus, FavoriteStatus} from '../const';
+import {AUTHORIZATION_STATUS, FAVORITE_STATUS} from '../const';
 import type {Review, ReviewData} from '../types/review';
 import {dropToken, saveToken} from '../services/token';
 import {adaptOfferToClient} from '../utils/adapter';
@@ -128,7 +128,7 @@ function changeFavoriteStatusAction(offerId: string, isFavorite: boolean) {
     _getState: () => State,
     api: AxiosInstance
   ): Promise<void> => {
-    const status = isFavorite ? FavoriteStatus.Remove : FavoriteStatus.Add;
+    const status = isFavorite ? FAVORITE_STATUS.Remove : FAVORITE_STATUS.Add;
     const {data} = await api.post<ServerOffer>(getFavoriteStatusRoute(offerId, status));
     const updatedOffer = adaptOfferToClient(data);
 
@@ -165,11 +165,11 @@ function checkAuthAction() {
   ): Promise<void> => {
     try {
       const {data} = await api.get<UserData>(LOGIN_ROUTE);
-      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(requireAuthorization(AUTHORIZATION_STATUS.Auth));
       dispatch(setUserData(data));
       dispatch(fetchFavoriteOffersAction());
     } catch {
-      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+      dispatch(requireAuthorization(AUTHORIZATION_STATUS.NoAuth));
       dispatch(fillFavoriteOffers([]));
       dispatch(setUserData(null));
     }
@@ -185,7 +185,7 @@ function loginAction(authData: AuthData) {
     const {data} = await api.post<UserData>(LOGIN_ROUTE, authData);
 
     saveToken(data.token);
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(requireAuthorization(AUTHORIZATION_STATUS.Auth));
     dispatch(setUserData(data));
     dispatch(fetchFavoriteOffersAction());
   };
@@ -204,7 +204,7 @@ function logoutAction() {
     }
 
     dropToken();
-    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    dispatch(requireAuthorization(AUTHORIZATION_STATUS.NoAuth));
     dispatch(setUserData(null));
     dispatch(fillFavoriteOffers([]));
   };

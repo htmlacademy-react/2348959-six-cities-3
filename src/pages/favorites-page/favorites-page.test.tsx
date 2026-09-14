@@ -8,7 +8,7 @@ import {favoritesData} from '../../store/favorites-data';
 import {offerData} from '../../store/offer-data';
 import {offersData} from '../../store/offers-data';
 import {userProcess} from '../../store/user-process';
-import {AuthorizationStatus} from '../../const';
+import {AUTHORIZATION_STATUS} from '../../const';
 import {makeFakeOffer} from '../../utils/test-mocks';
 import FavoritesPage from './favorites-page';
 
@@ -28,7 +28,7 @@ function renderFavoritesPage(favoriteOffersCount: number) {
     isFavorite: true,
   }));
 
-  testStore.dispatch(requireAuthorization(AuthorizationStatus.Auth));
+  testStore.dispatch(requireAuthorization(AUTHORIZATION_STATUS.Auth));
   testStore.dispatch(fillFavoriteOffers(favoriteOffers));
 
   render(

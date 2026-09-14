@@ -6,7 +6,7 @@ import MockAdapter from 'axios-mock-adapter';
 import {Provider} from 'react-redux';
 import {MemoryRouter, Route, Routes} from 'react-router-dom';
 import {createApi} from '../../services/api';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {APP_ROUTE, AUTHORIZATION_STATUS} from '../../const';
 import {requireAuthorization} from '../../store/action';
 import {appProcess} from '../../store/app-process';
 import {favoritesData} from '../../store/favorites-data';
@@ -41,7 +41,7 @@ describe('LoginPage', () => {
   it('should render login form for not authorized user', () => {
     const testStore = createTestStore();
 
-    testStore.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    testStore.dispatch(requireAuthorization(AUTHORIZATION_STATUS.NoAuth));
 
     render(
       <Provider store={testStore}>
@@ -59,14 +59,14 @@ describe('LoginPage', () => {
   it('should redirect authorized user to main page', () => {
     const testStore = createTestStore();
 
-    testStore.dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    testStore.dispatch(requireAuthorization(AUTHORIZATION_STATUS.Auth));
 
     render(
       <Provider store={testStore}>
-        <MemoryRouter initialEntries={[AppRoute.Login]}>
+        <MemoryRouter initialEntries={[APP_ROUTE.Login]}>
           <Routes>
-            <Route path={AppRoute.Login} element={<LoginPage />} />
-            <Route path={AppRoute.Main} element={<span>Main page</span>} />
+            <Route path={APP_ROUTE.Login} element={<LoginPage />} />
+            <Route path={APP_ROUTE.Main} element={<span>Main page</span>} />
           </Routes>
         </MemoryRouter>
       </Provider>
@@ -98,14 +98,14 @@ describe('LoginPage', () => {
     });
     mockApi.onGet('/favorite').reply(StatusCodes.OK, []);
 
-    storeWithMockApi.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    storeWithMockApi.dispatch(requireAuthorization(AUTHORIZATION_STATUS.NoAuth));
 
     render(
       <Provider store={storeWithMockApi}>
-        <MemoryRouter initialEntries={[AppRoute.Login]}>
+        <MemoryRouter initialEntries={[APP_ROUTE.Login]}>
           <Routes>
-            <Route path={AppRoute.Login} element={<LoginPage />} />
-            <Route path={AppRoute.Main} element={<span>Main page</span>} />
+            <Route path={APP_ROUTE.Login} element={<LoginPage />} />
+            <Route path={APP_ROUTE.Main} element={<span>Main page</span>} />
           </Routes>
         </MemoryRouter>
       </Provider>

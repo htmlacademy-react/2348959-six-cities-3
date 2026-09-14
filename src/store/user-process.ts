@@ -2,7 +2,7 @@ import type {AuthorizationStatusType} from '../types/authorization-status';
 import {requireAuthorization, setUserData} from './action';
 import type {UserData} from '../types/user-data';
 import {createReducer} from '@reduxjs/toolkit';
-import {AuthorizationStatus} from '../const';
+import {AUTHORIZATION_STATUS} from '../const';
 
 type UserProcess = {
   authorizationStatus: AuthorizationStatusType;
@@ -10,7 +10,7 @@ type UserProcess = {
 };
 
 const initialState: UserProcess = {
-  authorizationStatus: AuthorizationStatus.Unknown,
+  authorizationStatus: AUTHORIZATION_STATUS.Unknown,
   userData: null,
 };
 

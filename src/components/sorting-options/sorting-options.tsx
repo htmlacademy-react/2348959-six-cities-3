@@ -1,15 +1,15 @@
 import {KeyboardEvent, memo, MouseEvent, useState} from 'react';
-import {SortType} from '../../const';
+import {SORT_TYPE} from '../../const';
 import type {SortTypeName} from '../../const';
 
 const SORT_TYPES = [
-  SortType.Popular,
-  SortType.PriceLowToHigh,
-  SortType.PriceHighToLow,
-  SortType.TopRatedFirst,
+  SORT_TYPE.Popular,
+  SORT_TYPE.PriceLowToHigh,
+  SORT_TYPE.PriceHighToLow,
+  SORT_TYPE.TopRatedFirst,
 ] as const;
 
-const KeyboardKey = {
+const KEYBOARD_KEY = {
   Enter: 'Enter',
   Space: ' ',
 } as const;
@@ -38,7 +38,7 @@ function SortingOptions({currentSortType, onSortTypeChange}: SortingOptionsProps
   };
 
   const handleSortingTypeKeyDown = (evt: KeyboardEvent<HTMLSpanElement>) => {
-    if (evt.key === KeyboardKey.Enter || evt.key === KeyboardKey.Space) {
+    if (evt.key === KEYBOARD_KEY.Enter || evt.key === KEYBOARD_KEY.Space) {
       evt.preventDefault();
       setIsOpened((currentValue) => !currentValue);
     }

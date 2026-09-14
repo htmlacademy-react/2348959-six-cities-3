@@ -1,7 +1,7 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import {StatusCodes} from 'http-status-codes';
-import {AuthorizationStatus, CityName} from '../const';
+import {AUTHORIZATION_STATUS, CITY_NAME} from '../const';
 import type {ServerOffer} from '../types/offer';
 import {fillOffers, requireAuthorization, setOffersLoadingStatus} from './action';
 import {checkAuthAction, fetchOffersAction} from './api-actions';
@@ -13,7 +13,7 @@ const serverOffer: ServerOffer = {
   type: 'room',
   price: 100,
   city: {
-    name: CityName.Paris,
+    name: CITY_NAME.Paris,
     location: {latitude: 48.85661, longitude: 2.351499, zoom: 13},
   },
   location: {latitude: 48.85661, longitude: 2.351499, zoom: 13},
@@ -55,7 +55,7 @@ describe('Async actions', () => {
 
     await checkAuthAction()(dispatch, getState, api);
 
-    expect(dispatch).toHaveBeenCalledWith(requireAuthorization(AuthorizationStatus.Auth));
+    expect(dispatch).toHaveBeenCalledWith(requireAuthorization(AUTHORIZATION_STATUS.Auth));
   });
 
   it('should dispatch NoAuth when authorization check fails', async () => {
@@ -64,6 +64,6 @@ describe('Async actions', () => {
 
     await checkAuthAction()(dispatch, getState, api);
 
-    expect(dispatch).toHaveBeenCalledWith(requireAuthorization(AuthorizationStatus.NoAuth));
+    expect(dispatch).toHaveBeenCalledWith(requireAuthorization(AUTHORIZATION_STATUS.NoAuth));
   });
 });

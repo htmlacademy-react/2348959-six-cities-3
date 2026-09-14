@@ -2,7 +2,7 @@ import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import {render, screen} from '@testing-library/react';
 import {Provider} from 'react-redux';
 import {MemoryRouter} from 'react-router-dom';
-import {AuthorizationStatus} from '../../const';
+import {AUTHORIZATION_STATUS} from '../../const';
 import {fillFavoriteOffers, requireAuthorization, setUserData} from '../../store/action';
 import {appProcess} from '../../store/app-process';
 import {favoritesData} from '../../store/favorites-data';
@@ -20,7 +20,7 @@ const reducer = combineReducers({
   user: userProcess,
 });
 
-function renderHeader(authorizationStatus: typeof AuthorizationStatus[keyof typeof AuthorizationStatus]) {
+function renderHeader(authorizationStatus: typeof AUTHORIZATION_STATUS[keyof typeof AUTHORIZATION_STATUS]) {
   const testStore = configureStore({reducer});
 
   testStore.dispatch(requireAuthorization(authorizationStatus));
@@ -44,13 +44,13 @@ function renderHeader(authorizationStatus: typeof AuthorizationStatus[keyof type
 
 describe('Header', () => {
   it('should render sign in link for not authorized user', () => {
-    renderHeader(AuthorizationStatus.NoAuth);
+    renderHeader(AUTHORIZATION_STATUS.NoAuth);
 
     expect(screen.getByText('Sign in')).toBeInTheDocument();
   });
 
   it('should render user info and favorites count for authorized user', () => {
-    renderHeader(AuthorizationStatus.Auth);
+    renderHeader(AUTHORIZATION_STATUS.Auth);
 
     expect(screen.getByText('testuser@htmlacademy.ru')).toBeInTheDocument();
     expect(screen.getByText('2')).toBeInTheDocument();

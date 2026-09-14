@@ -1,4 +1,4 @@
-import {CityName} from '../const';
+import {CITY_NAME} from '../const';
 import type {Offer} from '../types/offer';
 import type {Review} from '../types/review';
 import {
@@ -16,7 +16,7 @@ const offer: Offer = {
   type: 'room',
   price: 100,
   city: {
-    name: CityName.Paris,
+    name: CITY_NAME.Paris,
     location: {latitude: 48.85661, longitude: 2.351499, zoom: 13},
   },
   location: {latitude: 48.85661, longitude: 2.351499, zoom: 13},

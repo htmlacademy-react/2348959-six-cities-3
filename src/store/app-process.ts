@@ -1,5 +1,5 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {CityName} from '../const';
+import {CITY_NAME} from '../const';
 import {changeCity} from './action';
 import type {CityNameType} from '../const';
 
@@ -8,7 +8,7 @@ type AppProcess = {
 };
 
 const initialState: AppProcess = {
-  city: CityName.Paris,
+  city: CITY_NAME.Paris,
 };
 
 const appProcess = createReducer(initialState, (builder) => {

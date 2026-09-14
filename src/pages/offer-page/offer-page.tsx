@@ -18,7 +18,7 @@ import OffersList from '../../components/offers-list/offers-list';
 import ReviewForm from '../../components/review-form/review-form';
 import NotFoundPage from '../not-found-page/not-found-page';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {APP_ROUTE, AUTHORIZATION_STATUS} from '../../const';
 import {useNavigate, useParams} from 'react-router-dom';
 import Spinner from '../../components/spinner/spinner';
 import Header from '../../components/header/header';
@@ -50,13 +50,27 @@ function OfferPage(): JSX.Element {
   const [isReviewSending, setIsReviewSending] = useState(false);
 
   useEffect(() => {
-    if (!id) {
-      return;
-    }
+    let isMounted = true;
 
-    dispatch(fetchOfferAction(id));
-    dispatch(fetchNearbyOffersAction(id));
-    dispatch(fetchReviewsAction(id));
+    const loadOfferData = async () => {
+      if (!id) {
+        return;
+      }
+
+      if (isMounted) {
+        await Promise.all([
+          dispatch(fetchOfferAction(id)),
+          dispatch(fetchNearbyOffersAction(id)),
+          dispatch(fetchReviewsAction(id)),
+        ]);
+      }
+    };
+
+    void loadOfferData();
+
+    return () => {
+      isMounted = false;
+    };
   }, [dispatch, id]);
 
   if (isOfferLoading) {
@@ -100,8 +114,8 @@ function OfferPage(): JSX.Element {
   };
 
   const handleFavoriteButtonClick = (offer: Offer) => {
-    if (authorizationStatus !== AuthorizationStatus.Auth) {
-      navigate(AppRoute.Login);
+    if (authorizationStatus !== AUTHORIZATION_STATUS.Auth) {
+      navigate(APP_ROUTE.Login);
       return;
     }
 
@@ -200,7 +214,7 @@ function OfferPage(): JSX.Element {
               </div>
               <section className="offer__reviews reviews">
                 <ReviewsList reviews={reviews} />
-                {authorizationStatus === AuthorizationStatus.Auth && (
+                {authorizationStatus === AUTHORIZATION_STATUS.Auth && (
                   <ReviewForm
                     isSending={isReviewSending}
                     onReviewSubmit={handleReviewSubmit}

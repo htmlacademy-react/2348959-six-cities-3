@@ -4,10 +4,10 @@ import {offerData} from './offer-data';
 import {offersData} from './offers-data';
 import {favoritesData} from './favorites-data';
 import {userProcess} from './user-process';
-import {ServerConfig} from '../const';
+import {SERVER_CONFIG} from '../const';
 import {createApi} from '../services/api';
 
-const api = createApi(ServerConfig.Url, ServerConfig.Timeout);
+const api = createApi(SERVER_CONFIG.Url, SERVER_CONFIG.Timeout);
 
 const reducer = combineReducers({
   app: appProcess,

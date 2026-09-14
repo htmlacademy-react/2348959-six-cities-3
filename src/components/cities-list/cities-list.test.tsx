@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {CITIES, CityName} from '../../const';
+import {CITIES, CITY_NAME} from '../../const';
 import CitiesList from './cities-list';
 
 describe('CitiesList', () => {
@@ -10,14 +10,14 @@ describe('CitiesList', () => {
     render(
       <CitiesList
         cities={CITIES}
-        currentCity={CityName.Paris}
+        currentCity={CITY_NAME.Paris}
         onCityChange={handleCityChange}
       />
     );
 
-    await userEvent.click(screen.getByText(CityName.Amsterdam));
+    await userEvent.click(screen.getByText(CITY_NAME.Amsterdam));
 
-    expect(screen.getByText(CityName.Paris)).toBeInTheDocument();
-    expect(handleCityChange).toHaveBeenCalledWith(CityName.Amsterdam);
+    expect(screen.getByText(CITY_NAME.Paris)).toBeInTheDocument();
+    expect(handleCityChange).toHaveBeenCalledWith(CITY_NAME.Amsterdam);
   });
 });

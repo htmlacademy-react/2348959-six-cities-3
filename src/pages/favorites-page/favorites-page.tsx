@@ -3,7 +3,7 @@ import OffersList from '../../components/offers-list/offers-list';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {getFavoriteOffers} from '../../store/selectors';
 import Header from '../../components/header/header';
-import {AppRoute, CITIES} from '../../const';
+import {APP_ROUTE, CITIES} from '../../const';
 import type {Offer} from '../../types/offer';
 import {Link} from 'react-router-dom';
 
@@ -56,7 +56,7 @@ export default function FavoritesPage(): JSX.Element {
                     <li className="favorites__locations-items" key={city}>
                       <div className="favorites__locations locations locations--current">
                         <div className="locations__item">
-                          <Link className="locations__item-link" to={AppRoute.Main}>
+                          <Link className="locations__item-link" to={APP_ROUTE.Main}>
                             <span>{city}</span>
                           </Link>
                         </div>
@@ -77,7 +77,7 @@ export default function FavoritesPage(): JSX.Element {
         </div>
       </main>
       <footer className="footer container">
-        <Link className="footer__logo-link" to={AppRoute.Main}>
+        <Link className="footer__logo-link" to={APP_ROUTE.Main}>
           <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
         </Link>
       </footer>

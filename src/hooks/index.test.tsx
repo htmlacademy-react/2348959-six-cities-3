@@ -2,7 +2,7 @@ import {renderHook} from '@testing-library/react';
 import {Provider} from 'react-redux';
 import type {ReactNode} from 'react';
 import {store} from '../store';
-import {CityName} from '../const';
+import {CITY_NAME} from '../const';
 import {useAppDispatch, useAppSelector} from './index';
 
 type StoreProviderProps = {
@@ -27,6 +27,6 @@ describe('Application hooks', () => {
       wrapper: StoreProvider,
     });
 
-    expect(result.current).toBe(CityName.Paris);
+    expect(result.current).toBe(CITY_NAME.Paris);
   });
 });

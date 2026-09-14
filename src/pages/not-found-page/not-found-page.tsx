@@ -1,12 +1,12 @@
 import {Link} from 'react-router-dom';
-import {AppRoute} from '../../const';
+import {APP_ROUTE} from '../../const';
 
 function NotFoundPage(): JSX.Element {
   return (
     <div className="page">
       <main className="page__main">
         <h1>404 Not Found</h1>
-        <Link to={AppRoute.Main}>Go to main page</Link>
+        <Link to={APP_ROUTE.Main}>Go to main page</Link>
       </main>
     </div>
   );

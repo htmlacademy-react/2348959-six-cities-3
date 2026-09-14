@@ -3,19 +3,19 @@ import {Provider} from 'react-redux';
 import {MemoryRouter, Route, Routes} from 'react-router-dom';
 import {store} from '../../store';
 import {requireAuthorization} from '../../store/action';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {APP_ROUTE, AUTHORIZATION_STATUS} from '../../const';
 import PrivateRoute from './private-route';
 
 describe('PrivateRoute', () => {
   it('should render children when user is authorized', () => {
-    store.dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    store.dispatch(requireAuthorization(AUTHORIZATION_STATUS.Auth));
 
     render(
       <Provider store={store}>
-        <MemoryRouter initialEntries={[AppRoute.Favorites]}>
+        <MemoryRouter initialEntries={[APP_ROUTE.Favorites]}>
           <Routes>
             <Route
-              path={AppRoute.Favorites}
+              path={APP_ROUTE.Favorites}
               element={
                 <PrivateRoute>
                   <span>Private content</span>
@@ -31,21 +31,21 @@ describe('PrivateRoute', () => {
   });
 
   it('should redirect to login when user is not authorized', () => {
-    store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    store.dispatch(requireAuthorization(AUTHORIZATION_STATUS.NoAuth));
 
     render(
       <Provider store={store}>
-        <MemoryRouter initialEntries={[AppRoute.Favorites]}>
+        <MemoryRouter initialEntries={[APP_ROUTE.Favorites]}>
           <Routes>
             <Route
-              path={AppRoute.Favorites}
+              path={APP_ROUTE.Favorites}
               element={
                 <PrivateRoute>
                   <span>Private content</span>
                 </PrivateRoute>
               }
             />
-            <Route path={AppRoute.Login} element={<span>Login page</span>} />
+            <Route path={APP_ROUTE.Login} element={<span>Login page</span>} />
           </Routes>
         </MemoryRouter>
       </Provider>
@@ -55,14 +55,14 @@ describe('PrivateRoute', () => {
   });
 
   it('should render spinner while authorization status is unknown', () => {
-    store.dispatch(requireAuthorization(AuthorizationStatus.Unknown));
+    store.dispatch(requireAuthorization(AUTHORIZATION_STATUS.Unknown));
 
     render(
       <Provider store={store}>
-        <MemoryRouter initialEntries={[AppRoute.Favorites]}>
+        <MemoryRouter initialEntries={[APP_ROUTE.Favorites]}>
           <Routes>
             <Route
-              path={AppRoute.Favorites}
+              path={APP_ROUTE.Favorites}
               element={
                 <PrivateRoute>
                   <span>Private content</span>

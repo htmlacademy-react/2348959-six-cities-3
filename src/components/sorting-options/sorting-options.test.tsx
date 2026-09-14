@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {SortType} from '../../const';
+import {SORT_TYPE} from '../../const';
 import SortingOptions from './sorting-options';
 
 describe('SortingOptions', () => {
@@ -9,14 +9,14 @@ describe('SortingOptions', () => {
 
     render(
       <SortingOptions
-        currentSortType={SortType.Popular}
+        currentSortType={SORT_TYPE.Popular}
         onSortTypeChange={handleSortTypeChange}
       />
     );
 
-    await userEvent.click(screen.getByText(SortType.Popular, {selector: '.places__sorting-type'}));
-    await userEvent.click(screen.getByText(SortType.PriceLowToHigh));
+    await userEvent.click(screen.getByText(SORT_TYPE.Popular, {selector: '.places__sorting-type'}));
+    await userEvent.click(screen.getByText(SORT_TYPE.PriceLowToHigh));
 
-    expect(handleSortTypeChange).toHaveBeenCalledWith(SortType.PriceLowToHigh);
+    expect(handleSortTypeChange).toHaveBeenCalledWith(SORT_TYPE.PriceLowToHigh);
   });
 });

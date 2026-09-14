@@ -5,22 +5,22 @@ import OfferPage from '../../pages/offer-page/offer-page';
 import PrivateRoute from '../private-route/private-route';
 import MainPage from '../../pages/main-page/main-page';
 import {Route, Routes} from 'react-router-dom';
-import {AppRoute} from '../../const';
+import {APP_ROUTE} from '../../const';
 
 function App(): JSX.Element {
   return (
     <Routes>
       <Route
-        path={AppRoute.Main}
+        path={APP_ROUTE.Main}
         element={<MainPage />}
       />
       <Route
-        path={AppRoute.Login}
+        path={APP_ROUTE.Login}
         element={<LoginPage />}
       />
 
       <Route
-        path={AppRoute.Favorites}
+        path={APP_ROUTE.Favorites}
         element={
           <PrivateRoute>
             <FavoritesPage />
@@ -29,11 +29,11 @@ function App(): JSX.Element {
       />
 
       <Route
-        path={AppRoute.Offer}
+        path={APP_ROUTE.Offer}
         element={<OfferPage />}
       />
       <Route
-        path={AppRoute.NotFound}
+        path={APP_ROUTE.NotFound}
         element={<NotFoundPage />}
       />
     </Routes>

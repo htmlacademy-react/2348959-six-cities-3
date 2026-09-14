@@ -1,6 +1,6 @@
 import {getAuthorizationStatus, getFavoriteOffers, getUserData} from '../../store/selectors';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {APP_ROUTE, AUTHORIZATION_STATUS} from '../../const';
 import {logoutAction} from '../../store/api-actions';
 import {Link} from 'react-router-dom';
 import type {MouseEvent} from 'react';
@@ -29,16 +29,16 @@ function Header({isMainPage = false}: HeaderProps): JSX.Element {
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <Link className={logoLinkClassName} to={AppRoute.Main}>
+            <Link className={logoLinkClassName} to={APP_ROUTE.Main}>
               <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
             </Link>
           </div>
           <nav className="header__nav">
             <ul className="header__nav-list">
-              {authorizationStatus === AuthorizationStatus.Auth ? (
+              {authorizationStatus === AUTHORIZATION_STATUS.Auth ? (
                 <>
                   <li className="header__nav-item user">
-                    <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
+                    <Link className="header__nav-link header__nav-link--profile" to={APP_ROUTE.Favorites}>
                       <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                       <span className="header__user-name user__name">{userData?.email}</span>
                       <span className="header__favorite-count">{favoriteOffers.length}</span>
@@ -52,7 +52,7 @@ function Header({isMainPage = false}: HeaderProps): JSX.Element {
                 </>
               ) : (
                 <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Login}>
+                  <Link className="header__nav-link header__nav-link--profile" to={APP_ROUTE.Login}>
                     <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                     <span className="header__login">Sign in</span>
                   </Link>

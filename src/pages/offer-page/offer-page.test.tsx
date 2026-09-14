@@ -2,7 +2,7 @@ import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import {render, screen} from '@testing-library/react';
 import {Provider} from 'react-redux';
 import {MemoryRouter, Route, Routes} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {APP_ROUTE, AUTHORIZATION_STATUS} from '../../const';
 import {
   fillNearbyOffers,
   fillReviews,
@@ -50,7 +50,7 @@ function renderOfferPage(testStore: ReturnType<typeof createTestStore>) {
     <Provider store={testStore}>
       <MemoryRouter initialEntries={['/offer/1']}>
         <Routes>
-          <Route path={AppRoute.Offer} element={<OfferPage />} />
+          <Route path={APP_ROUTE.Offer} element={<OfferPage />} />
         </Routes>
       </MemoryRouter>
     </Provider>
@@ -82,7 +82,7 @@ describe('OfferPage', () => {
   it('should render offer details, reviews and nearby offers', () => {
     const testStore = createTestStore();
 
-    testStore.dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    testStore.dispatch(requireAuthorization(AUTHORIZATION_STATUS.Auth));
     testStore.dispatch(setCurrentOffer(makeFakeOffer('1')));
     testStore.dispatch(fillNearbyOffers([makeFakeOffer('2')]));
     testStore.dispatch(fillReviews([makeFakeReview('1')]));
@@ -100,7 +100,7 @@ describe('OfferPage', () => {
   it('should render review form for authorized user', () => {
     const testStore = createTestStore();
 
-    testStore.dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    testStore.dispatch(requireAuthorization(AUTHORIZATION_STATUS.Auth));
     testStore.dispatch(setCurrentOffer(makeFakeOffer('1')));
 
     renderOfferPage(testStore);
@@ -111,7 +111,7 @@ describe('OfferPage', () => {
   it('should not render review form for guest', () => {
     const testStore = createTestStore();
 
-    testStore.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    testStore.dispatch(requireAuthorization(AUTHORIZATION_STATUS.NoAuth));
     testStore.dispatch(setCurrentOffer(makeFakeOffer('1')));
 
     renderOfferPage(testStore);

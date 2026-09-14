@@ -1,6 +1,6 @@
 import {getAuthorizationStatus, getCity, getFilteredOffers, getOffersLoadingStatus} from '../../store/selectors';
 import SortingOptions from '../../components/sorting-options/sorting-options';
-import {AppRoute, AuthorizationStatus, CITIES, SortType} from '../../const';
+import {APP_ROUTE, AUTHORIZATION_STATUS, CITIES, SORT_TYPE} from '../../const';
 import {changeFavoriteStatusAction} from '../../store/api-actions';
 import CitiesList from '../../components/cities-list/cities-list';
 import OffersList from '../../components/offers-list/offers-list';
@@ -20,7 +20,7 @@ function MainPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const [currentSortType, setCurrentSortType] = useState<SortTypeName>(SortType.Popular);
+  const [currentSortType, setCurrentSortType] = useState<SortTypeName>(SORT_TYPE.Popular);
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
 
   const currentCity = useAppSelector(getCity);
@@ -42,7 +42,7 @@ function MainPage(): JSX.Element {
 
   const handleCityChange = useCallback((city: CityNameType) => {
     dispatch(changeCity(city));
-    setCurrentSortType(SortType.Popular);
+    setCurrentSortType(SORT_TYPE.Popular);
   }, [dispatch]);
 
   const handleSortTypeChange = useCallback((sortType: SortTypeName) => {
@@ -58,8 +58,8 @@ function MainPage(): JSX.Element {
   }, []);
 
   const handleFavoriteButtonClick = (offer: Offer) => {
-    if (authorizationStatus !== AuthorizationStatus.Auth) {
-      navigate(AppRoute.Login);
+    if (authorizationStatus !== AUTHORIZATION_STATUS.Auth) {
+      navigate(APP_ROUTE.Login);
       return;
     }
 

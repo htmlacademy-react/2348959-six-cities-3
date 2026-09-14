@@ -1,4 +1,4 @@
-import {SortType} from '../const';
+import {SORT_TYPE} from '../const';
 import type {SortTypeName} from '../const';
 import type {Offer} from '../types/offer';
 
@@ -16,13 +16,13 @@ function sortOffersByRating(firstOffer: Offer, secondOffer: Offer): number {
 
 function getSortedOffers(offers: Offer[], sortType: SortTypeName): Offer[] {
   switch (sortType) {
-    case SortType.PriceLowToHigh:
+    case SORT_TYPE.PriceLowToHigh:
       return [...offers].sort(sortOffersByPriceLowToHigh);
-    case SortType.PriceHighToLow:
+    case SORT_TYPE.PriceHighToLow:
       return [...offers].sort(sortOffersByPriceHighToLow);
-    case SortType.TopRatedFirst:
+    case SORT_TYPE.TopRatedFirst:
       return [...offers].sort(sortOffersByRating);
-    case SortType.Popular:
+    case SORT_TYPE.Popular:
       return offers;
   }
 }

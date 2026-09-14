@@ -2,7 +2,7 @@ import {FormEvent, useState} from 'react';
 import {getAuthorizationStatus} from '../../store/selectors';
 import {Link, Navigate, useNavigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {AppRoute, AuthorizationStatus, CITIES} from '../../const';
+import {APP_ROUTE, AUTHORIZATION_STATUS, CITIES} from '../../const';
 import {loginAction} from '../../store/api-actions';
 import {changeCity} from '../../store/action';
 
@@ -19,7 +19,7 @@ function LoginPage(): JSX.Element {
     const password = formData.get('password') as string;
 
     dispatch(loginAction({email, password}))
-      .then(() => navigate(AppRoute.Main))
+      .then(() => navigate(APP_ROUTE.Main))
       .catch(() => undefined);
   };
 
@@ -27,8 +27,8 @@ function LoginPage(): JSX.Element {
     dispatch(changeCity(randomCity));
   };
 
-  if (authorizationStatus === AuthorizationStatus.Auth) {
-    return <Navigate to={AppRoute.Main} />;
+  if (authorizationStatus === AUTHORIZATION_STATUS.Auth) {
+    return <Navigate to={APP_ROUTE.Main} />;
   }
 
   return (
@@ -37,7 +37,7 @@ function LoginPage(): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <Link className="header__logo-link" to={AppRoute.Main}>
+              <Link className="header__logo-link" to={APP_ROUTE.Main}>
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </Link>
             </div>
@@ -70,7 +70,7 @@ function LoginPage(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" to={AppRoute.Main} onClick={handleCityClick}>
+              <Link className="locations__item-link" to={APP_ROUTE.Main} onClick={handleCityClick}>
                 <span>{randomCity}</span>
               </Link>
             </div>

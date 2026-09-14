@@ -1,5 +1,5 @@
-import {AuthorizationStatus} from '../const';
+import {AUTHORIZATION_STATUS} from '../const';
 
-type AuthorizationStatusType = typeof AuthorizationStatus[keyof typeof AuthorizationStatus];
+type AuthorizationStatusType = typeof AUTHORIZATION_STATUS[keyof typeof AUTHORIZATION_STATUS];
 
 export type {AuthorizationStatusType};
