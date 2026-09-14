@@ -24,7 +24,7 @@ function CitiesList({cities, currentCity, onCityChange}: CitiesListProps): JSX.E
 
             return (
               <li className="locations__item" key={city}>
-                <a className={cityLinkClassName} href="#" onClick={handleCityClick}>
+                <a className={cityLinkClassName} href="#todo" onClick={handleCityClick}>
                   <span>{city}</span>
                 </a>
               </li>

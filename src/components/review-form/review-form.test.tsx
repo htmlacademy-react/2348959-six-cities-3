@@ -7,7 +7,7 @@ const VALID_REVIEW_TEXT =
 
 describe('ReviewForm', () => {
   it('should disable submit button by default', () => {
-    render(<ReviewForm onReviewSubmit={vi.fn()} />);
+    render(<ReviewForm isSending={false} onReviewSubmit={vi.fn()} />);
 
     expect(screen.getByRole('button', {name: 'Submit'})).toBeDisabled();
   });
@@ -15,7 +15,7 @@ describe('ReviewForm', () => {
   it('should call callback after valid form submit', async () => {
     const handleReviewSubmit = vi.fn();
 
-    render(<ReviewForm onReviewSubmit={handleReviewSubmit} />);
+    render(<ReviewForm isSending={false} onReviewSubmit={handleReviewSubmit} />);
 
     await userEvent.click(screen.getByTitle('perfect'));
     await userEvent.type(screen.getByPlaceholderText(/Tell how was your stay/i), VALID_REVIEW_TEXT);

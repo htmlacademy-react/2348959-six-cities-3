@@ -1,15 +1,16 @@
+import {FormEvent, useState} from 'react';
 import {getAuthorizationStatus} from '../../store/selectors';
 import {Link, Navigate, useNavigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {AppRoute, AuthorizationStatus, CITIES} from '../../const';
 import {loginAction} from '../../store/api-actions';
-
-import {FormEvent} from 'react';
+import {changeCity} from '../../store/action';
 
 function LoginPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const navigate = useNavigate();
+  const [randomCity] = useState(() => CITIES[Math.floor(Math.random() * CITIES.length)]);
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -20,6 +21,10 @@ function LoginPage(): JSX.Element {
     dispatch(loginAction({email, password}))
       .then(() => navigate(AppRoute.Main))
       .catch(() => undefined);
+  };
+
+  const handleCityClick = () => {
+    dispatch(changeCity(randomCity));
   };
 
   if (authorizationStatus === AuthorizationStatus.Auth) {
@@ -51,15 +56,22 @@ function LoginPage(): JSX.Element {
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input className="login__input form__input" type="password" name="password" placeholder="Password" required pattern="\S+" />
+                <input
+                  className="login__input form__input"
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  required
+                  pattern="(?=.*[A-Za-z])(?=.*\d)\S+"
+                />
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" to={AppRoute.Main}>
-                <span>Amsterdam</span>
+              <Link className="locations__item-link" to={AppRoute.Main} onClick={handleCityClick}>
+                <span>{randomCity}</span>
               </Link>
             </div>
           </section>

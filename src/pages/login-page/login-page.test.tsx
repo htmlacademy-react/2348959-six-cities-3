@@ -112,7 +112,7 @@ describe('LoginPage', () => {
     );
 
     await userEvent.type(screen.getByPlaceholderText('Email'), 'john@test.com');
-    await userEvent.type(screen.getByPlaceholderText('Password'), 'password');
+    await userEvent.type(screen.getByPlaceholderText('Password'), 'password1');
     await userEvent.click(screen.getByRole('button', {name: 'Sign in'}));
 
     expect(await screen.findByText('Main page')).toBeInTheDocument();

@@ -1,4 +1,4 @@
-import {getAuthorizationStatus, getFavoriteOffers} from '../../store/selectors';
+import {getAuthorizationStatus, getFavoriteOffers, getUserData} from '../../store/selectors';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import {logoutAction} from '../../store/api-actions';
@@ -13,6 +13,7 @@ function Header({isMainPage = false}: HeaderProps): JSX.Element {
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const favoriteOffers = useAppSelector(getFavoriteOffers);
+  const userData = useAppSelector(getUserData);
 
   const logoLinkClassName = isMainPage
     ? 'header__logo-link header__logo-link--active'
@@ -39,7 +40,7 @@ function Header({isMainPage = false}: HeaderProps): JSX.Element {
                   <li className="header__nav-item user">
                     <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
                       <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                      <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                      <span className="header__user-name user__name">{userData?.email}</span>
                       <span className="header__favorite-count">{favoriteOffers.length}</span>
                     </Link>
                   </li>

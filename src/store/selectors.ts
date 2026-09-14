@@ -1,5 +1,6 @@
 import {createSelector} from '@reduxjs/toolkit';
 import type {AuthorizationStatusType} from '../types/authorization-status';
+import type {UserData} from '../types/user-data';
 import type {Review} from '../types/review';
 import type {CityNameType} from '../const';
 import type {Offer} from '../types/offer';
@@ -30,6 +31,10 @@ function getAuthorizationStatus(state: State): AuthorizationStatusType {
   return state.user.authorizationStatus;
 }
 
+function getUserData(state: State): UserData | null {
+  return state.user.userData;
+}
+
 function getCurrentOffer(state: State): Offer | null {
   return state.offer.currentOffer;
 }
@@ -57,4 +62,5 @@ export {
   getOffers,
   getOffersLoadingStatus,
   getReviews,
+  getUserData,
 };

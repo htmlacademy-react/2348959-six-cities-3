@@ -7,7 +7,8 @@ import {
   fillReviews,
   setCurrentOffer,
   setOfferLoadingStatus,
-  updateOffer
+  updateOffer,
+  setUserData
 } from './action';
 import {AuthorizationStatus, FavoriteStatus} from '../const';
 import type {Review, ReviewData} from '../types/review';
@@ -98,14 +99,13 @@ function fetchReviewsAction(offerId: string) {
 function postReviewAction(offerId: string, reviewData: ReviewData) {
   return async (
     dispatch: AppDispatch,
-    _getState: () => State,
+    getState: () => State,
     api: AxiosInstance
   ): Promise<void> => {
-    await api.post(getReviewsRoute(offerId), reviewData);
+    const {data: newReview} = await api.post<Review>(getReviewsRoute(offerId), reviewData);
+    const reviews = getState().offer.reviews;
 
-    const {data} = await api.get<Review[]>(getReviewsRoute(offerId));
-
-    dispatch(fillReviews(data));
+    dispatch(fillReviews([newReview, ...reviews]));
   };
 }
 
@@ -164,12 +164,14 @@ function checkAuthAction() {
     api: AxiosInstance
   ): Promise<void> => {
     try {
-      await api.get(LOGIN_ROUTE);
+      const {data} = await api.get<UserData>(LOGIN_ROUTE);
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(setUserData(data));
       dispatch(fetchFavoriteOffersAction());
     } catch {
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
       dispatch(fillFavoriteOffers([]));
+      dispatch(setUserData(null));
     }
   };
 }
@@ -184,6 +186,7 @@ function loginAction(authData: AuthData) {
 
     saveToken(data.token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(setUserData(data));
     dispatch(fetchFavoriteOffersAction());
   };
 }
@@ -202,6 +205,7 @@ function logoutAction() {
 
     dropToken();
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    dispatch(setUserData(null));
     dispatch(fillFavoriteOffers([]));
   };
 }

@@ -3,7 +3,7 @@ import {render, screen} from '@testing-library/react';
 import {Provider} from 'react-redux';
 import {MemoryRouter} from 'react-router-dom';
 import {AuthorizationStatus} from '../../const';
-import {fillFavoriteOffers, requireAuthorization} from '../../store/action';
+import {fillFavoriteOffers, requireAuthorization, setUserData} from '../../store/action';
 import {appProcess} from '../../store/app-process';
 import {favoritesData} from '../../store/favorites-data';
 import {offerData} from '../../store/offer-data';
@@ -24,6 +24,13 @@ function renderHeader(authorizationStatus: typeof AuthorizationStatus[keyof type
   const testStore = configureStore({reducer});
 
   testStore.dispatch(requireAuthorization(authorizationStatus));
+  testStore.dispatch(setUserData({
+    name: 'Test User',
+    avatarUrl: 'img/avatar.svg',
+    isPro: false,
+    email: 'testuser@htmlacademy.ru',
+    token: 'token',
+  }));
   testStore.dispatch(fillFavoriteOffers([makeFakeOffer('1'), makeFakeOffer('2')]));
 
   render(
@@ -45,7 +52,7 @@ describe('Header', () => {
   it('should render user info and favorites count for authorized user', () => {
     renderHeader(AuthorizationStatus.Auth);
 
-    expect(screen.getByText('Oliver.conner@gmail.com')).toBeInTheDocument();
+    expect(screen.getByText('testuser@htmlacademy.ru')).toBeInTheDocument();
     expect(screen.getByText('2')).toBeInTheDocument();
   });
 });
